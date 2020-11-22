@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * @author 孟享广
@@ -54,12 +55,22 @@ public class MyBatisTest {
         SqlSession openSession = sqlSessionFactory.openSession();
 
         EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+        //测试查询方法1
+        Employee employee1 = mapper.getEmployeeByIdAndLastName(1, "tom");
+        System.out.println(employee1);
+        //测试查询方法2
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", 1);
+        map.put("lastName", "tom");
+        map.put("tableName", "tbl_employee");
+        Employee employee2 = mapper.getEmployeeByMap(map);
+        System.out.println(employee2);
 
         Employee employee = new Employee(null, "jerry23", "jery@333.com", "1");
 //        Employee employee = new Employee(2, "jerry2", "jery@333.com", "1");
         //测试添加
-        int i = mapper.addEmployee(employee);
-        System.out.println(employee.getId());
+//        int i = mapper.addEmployee(employee);
+//        System.out.println(employee.getId());
 
         //测试修改
 //        int i = mapper.updateEmployee(employee);
@@ -67,7 +78,7 @@ public class MyBatisTest {
         //测试删除
 //        int i = mapper.deleteEmployee(2);
 
-        System.out.println("影响了 " + i + " 行");
+//        System.out.println("影响了 " + i + " 行");
         //手动提交
         openSession.commit();
     }

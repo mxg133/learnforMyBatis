@@ -8,12 +8,21 @@
     id：唯一标识
     resultType：返回值类型
     #{id}：从传递过来的参数中取出id值
-
-    public Employee getEmpById(Integer id);
      -->
+    <!-- 查询1 -->
     <select id="getEmployeeById" resultType="com.DanceBytes.mybatis.bean.Employee" databaseId="mysql">
-    select * from tbl_employee where id = #{id}
+        select * from tbl_employee where id = #{id}
   </select>
+
+    <!-- 查询2 -->
+    <select id="getEmployeeByIdAndLastName" resultType="com.DanceBytes.mybatis.bean.Employee">
+        select * from tbl_employee where id=#{id} and last_Name=#{lastName}
+    </select>
+
+    <!-- 查询3 -->
+    <select id="getEmployeeByMap" resultType="com.DanceBytes.mybatis.bean.Employee">
+        select * from ${tableName} where id=${id} and last_Name=#{lastName}
+    </select>
 
     <!-- public void addEmp(Employee employee); -->
     <!-- parameterType：参数类型，可以省略，

@@ -1,6 +1,9 @@
 package com.DanceBytes.mybatis.dao;
 
 import com.DanceBytes.mybatis.bean.Employee;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * @author 孟享广
@@ -8,8 +11,11 @@ import com.DanceBytes.mybatis.bean.Employee;
  * @description
  */
 public interface EmployeeMapper {
+    public Employee getEmployeeByMap(Map<String, Object> map);
     //查询
     public Employee getEmployeeById(Integer id);
+    public Employee getEmployeeByIdAndLastName(@Param("id")Integer id, @Param("lastName")String lastName);
+
     //增加
     public Integer addEmployee(Employee employee);
     //修改

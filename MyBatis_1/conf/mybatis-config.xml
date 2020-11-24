@@ -109,6 +109,6 @@
         <!-- <mapper class="com.DanceBytes.mybatis.dao.EmployeeMapperAnnotation"/> -->
 
         <!-- 批量注册： -->
-        <package name="com.DanceBytes.mybatis.dao"/>
+        <package name="com/DanceBytes/mybatis/dao"/>
     </mappers>
 </configuration>

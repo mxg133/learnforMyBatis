@@ -89,4 +89,33 @@ public class MybatisDynamicSQL {
         openSession.commit();
         openSession.close();
     }
+
+    //_parameter _databaseId
+    @Test
+    public void test6() throws Exception {
+        SqlSession openSession = getSqlSessionFactory().openSession();
+        EmployeeMapperDynamicSQL mapper = openSession.getMapper(EmployeeMapperDynamicSQL.class);
+        Employee employee = new Employee();
+        List<Employee> list = mapper.getEmployeeTestInnerParameter(employee);
+        for (Employee e: list) {
+            System.out.println(e);
+        }
+        openSession.close();
+    }
+
+    //Bind
+    @Test
+    public void test7() throws Exception {
+        SqlSession openSession = getSqlSessionFactory().openSession();
+        EmployeeMapperDynamicSQL mapper = openSession.getMapper(EmployeeMapperDynamicSQL.class);
+        Employee employee = new Employee();
+        employee.setLastName("e");
+        List<Employee> list = mapper.getEmployeeTestInnerParameterBind(employee);
+        for (Employee e: list) {
+            System.out.println(e);
+        }
+        openSession.close();
+    }
+
+
 }

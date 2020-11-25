@@ -1,5 +1,7 @@
 package com.DanceBytes.mybatis.bean;
 
+import java.io.Serializable;
+
 /**
  * @author 孟享广
  * @date 2020-11-22 10:02 上午
@@ -7,7 +9,7 @@ package com.DanceBytes.mybatis.bean;
  */
 
 //@Alias("emp")
-public class Employee {
+public class Employee implements Serializable {
 
     private Integer id;
     private String lastName;

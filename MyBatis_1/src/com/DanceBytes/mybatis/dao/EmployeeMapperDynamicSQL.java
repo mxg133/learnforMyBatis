@@ -24,4 +24,10 @@ public interface EmployeeMapperDynamicSQL {
 
 	//foreach 批量保存
 	public void addEmployeesByForeach(@Param("employees")List<Employee> employees);
+
+	//_parameter _databaseId
+	public List<Employee> getEmployeeTestInnerParameter(Employee employee);
+
+	//Bind
+	public List<Employee> getEmployeeTestInnerParameterBind(Employee employee);
 }

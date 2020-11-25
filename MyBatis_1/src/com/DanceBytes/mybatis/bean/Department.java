@@ -1,5 +1,6 @@
 package com.DanceBytes.mybatis.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @date 2020-11-23 3:06 下午
  * @description
  */
-public class Department {
+public class Department implements Serializable {
 
     private Integer id;
     private String departmentName;

@@ -143,12 +143,66 @@
     <!-- foreach  批量保存 -->
     <!--MySQL下批量保存：可以foreach遍历   mysql支持values(),(),()语法-->
     <insert id="addEmployeesByForeach">
-        insert into tbl_employee(last_name, email, gender, d_id)
+        insert into tbl_employee(
+            <include refid="insertColumn"></include>
+        )
         values
         <foreach collection="employees" item="employee" separator=",">
             (#{employee.lastName}, #{employee.email}, #{employee.gender},#{employee.dept.id})
         </foreach>
     </insert>
+
+
+    <!--
+        两个内置参数：
+             不只是方法传递过来的参数可以被用来判断，取值。。。
+             mybatis默认还有两个内置参数：
+             _parameter:代表整个参数
+                 单个参数：_parameter就是这个参数
+                 多个参数：参数会被封装为一个map；_parameter就是代表这个map
+             _databaseId:如果配置了databaseIdProvider标签。
+                 _databaseId就是代表当前数据库的别名oracle
+      -->
+    <!-- _parameter _databaseId-->
+    <select id="getEmployeeTestInnerParameter" resultType="com.DanceBytes.mybatis.bean.Employee">
+        <if test="_databaseId=='mysql'">
+            select * from tbl_employee
+            <if test="_parameter!=null">
+                where last_name like #{lastName}
+            </if>
+        </if>
+    </select>
+
+    <!-- Bind -->
+    <select id="getEmployeeTestInnerParameterBind" resultType="com.DanceBytes.mybatis.bean.Employee">
+        <!-- bind：可以将OGNL表达式的值绑定到一个变量中，方便后来引用这个变量的值 -->
+        <bind name="_lastName" value="'%'+lastName+'%'"/>
+        <if test="_databaseId=='mysql'">
+            select * from tbl_employee
+            <if test="_parameter!=null">
+                where last_name like #{_lastName}
+            </if>
+        </if>
+    </select>
+
+
+    <!--
+         抽取可重用的sql片段。方便后面引用
+         1、sql抽取：经常将要查询的列名，或者插入用的列名抽取出来方便引用
+         2、include来引用已经抽取的sql：
+         3、include还可以自定义一些property，sql标签内部就能使用自定义的属性
+                 include-property：取值的正确方式${prop},
+                 #{不能使用这种方式}
+     -->
+    <!-- 调用方式 <include refid="insertColumn"></include>   -->
+    <sql id="insertColumn">
+        <if test="_databaseId=='oracle'">
+            employee_id,last_name,email
+        </if>
+        <if test="_databaseId=='mysql'">
+            last_name,email,gender,d_id
+        </if>
+    </sql>
 
 
 </mapper>

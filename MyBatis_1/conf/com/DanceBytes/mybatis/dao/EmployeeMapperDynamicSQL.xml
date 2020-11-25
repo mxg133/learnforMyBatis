@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.DanceBytes.mybatis.dao.EmployeeMapperDynamicSQL">
+<mapper namespace="com.DanceBytes.mybatis.EmployeeMapperDynamicSQL">
     <!--
 • if:判断
 • choose (when, otherwise):分支选择；带了break的swtich-case
@@ -11,7 +11,7 @@
 • foreach 遍历集合
 	 -->
     <!-- 查询员工，要求，携带了哪个字段查询条件就带上这个字段的值 -->
-    <select id="getEmpsByConditionIf" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmpsByConditionIf" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee
         <!-- where -->
         <where>
@@ -45,7 +45,7 @@
     </select>
 
     <!-- Trim   -->
-    <select id="getEmpsByConditionTrim" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmpsByConditionTrim" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee
         <!--
             后面多出的and或者or where标签不能解决
@@ -77,7 +77,7 @@
     </select>
 
     <!-- Choose -->
-    <select id="getEmpsByConditionChoose" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmpsByConditionChoose" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee
         <where>
             <!-- 如果带了id就用id查，如果带了lastName就用lastName查;只会进入其中一个 -->
@@ -120,7 +120,7 @@
 
 
     <!-- foreach 查询-->
-    <select id="getEmpsByConditionForeach" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmpsByConditionForeach" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee
         <foreach collection="ids" item="item_id" separator="," open="where id in(" close=")">
             #{item_id}
@@ -164,7 +164,7 @@
                  _databaseId就是代表当前数据库的别名oracle
       -->
     <!-- _parameter _databaseId-->
-    <select id="getEmployeeTestInnerParameter" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeTestInnerParameter" resultType="com.DanceBytes.mybatis.Employee">
         <if test="_databaseId=='mysql'">
             select * from tbl_employee
             <if test="_parameter!=null">
@@ -174,7 +174,7 @@
     </select>
 
     <!-- Bind -->
-    <select id="getEmployeeTestInnerParameterBind" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeTestInnerParameterBind" resultType="com.DanceBytes.mybatis.Employee">
         <!-- bind：可以将OGNL表达式的值绑定到一个变量中，方便后来引用这个变量的值 -->
         <bind name="_lastName" value="'%'+lastName+'%'"/>
         <if test="_databaseId=='mysql'">

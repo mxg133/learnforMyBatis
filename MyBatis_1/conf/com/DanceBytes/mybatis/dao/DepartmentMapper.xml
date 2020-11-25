@@ -2,25 +2,25 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.DanceBytes.mybatis.dao.DepartmentMapper">
+<mapper namespace="com.DanceBytes.mybatis.DepartmentMapper">
     <!-- 引用缓存：namespace：指定和哪个名称空间下的缓存一样 -->
-    <cache-ref namespace="com.DanceBytes.mybatis.dao.EmployeeMapper"/>
+    <cache-ref namespace="com.DanceBytes.mybatis.EmployeeMapper"/>
     
-    <select id="getDeptById" resultType="com.DanceBytes.mybatis.bean.Department">
+    <select id="getDeptById" resultType="com.DanceBytes.mybatis.Department">
         select id, dept_name departmentName from tbl_dept where id=#{id}
     </select>
 
 
 
     <!--嵌套结果集的方式，使用collection标签定义关联的集合类型的属性封装规则  -->
-    <resultMap id="myDept" type="com.DanceBytes.mybatis.bean.Department">
+    <resultMap id="myDept" type="com.DanceBytes.mybatis.Department">
         <id column="did" property="id"/>
         <result column="dept_name" property="departmentName"/>
         <!--
             collection定义关联集合类型的属性的封装规则
             ofType:指定集合里面元素的类型
         -->
-        <collection property="employees" ofType="com.DanceBytes.mybatis.bean.Employee">
+        <collection property="employees" ofType="com.DanceBytes.mybatis.Employee">
             <!-- 定义这个集合中元素的封装规则 -->
             <id column="eid" property="id"/>
             <result column="last_name" property="lastName"/>
@@ -41,11 +41,11 @@
 
 
     <!-- 分段查询 list -->
-    <resultMap id="myDeptStep" type="com.DanceBytes.mybatis.bean.Department">
+    <resultMap id="myDeptStep" type="com.DanceBytes.mybatis.Department">
         <id column="id" property="id"/>
         <result column="dept_name" property="departmentName"/>
         <collection property="employees"
-                    select="com.DanceBytes.mybatis.dao.EmployeeMapperPlus.getEmployeeByDeptId"
+                    select="com.DanceBytes.mybatis.EmployeeMapperPlus.getEmployeeByDeptId"
                     column="{deptId=id}"
                     fetchType="lazy">
         </collection>

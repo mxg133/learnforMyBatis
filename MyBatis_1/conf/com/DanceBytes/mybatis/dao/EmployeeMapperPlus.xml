@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.DanceBytes.mybatis.dao.EmployeeMapperPlus">
+<mapper namespace="com.DanceBytes.mybatis.EmployeeMapperPlus">
 
     <!--自定义某个javaBean的封装规则
         type：自定义规则的Java类型
         id:唯一id方便引用
      -->
-    <resultMap id="myEmployee" type="com.DanceBytes.mybatis.bean.Employee">
+    <resultMap id="myEmployee" type="com.DanceBytes.mybatis.Employee">
         <!--指定主键列的封装规则
 		    id定义主键会底层有优化；
 		    column：指定哪一列
@@ -38,7 +38,7 @@
         联合查询1
         联合查询：级联属性封装结果集
      -->
-    <resultMap id="myEmpPlus1" type="com.DanceBytes.mybatis.bean.Employee">
+    <resultMap id="myEmpPlus1" type="com.DanceBytes.mybatis.Employee">
         <id column="id" property="id"/>
         <result column="last_name" property="lastName"/>
         <result column="gender" property="gender"/>
@@ -56,7 +56,7 @@
         联合查询2
         使用association定义关联的单个对象的封装规则；
      -->
-    <resultMap id="myEmpPlus2" type="com.DanceBytes.mybatis.bean.Employee">
+    <resultMap id="myEmpPlus2" type="com.DanceBytes.mybatis.Employee">
         <id column="id" property="id"/>
         <result column="last_name" property="lastName"/>
         <result column="gender" property="gender"/>
@@ -65,7 +65,7 @@
             property="dept"：指定哪个属性是联合的对象
             javaType:指定这个属性对象的类型[不能省略]
         -->
-        <association property="dept" javaType="com.DanceBytes.mybatis.bean.Department">
+        <association property="dept" javaType="com.DanceBytes.mybatis.Department">
             <id column="did" property="id"/>
             <result column="dept_name" property="departmentName"/>
         </association>
@@ -83,7 +83,7 @@
             2、根据查询员工信息中的d_id值去部门表查出部门信息
             3、部门设置到员工中；
     -->
-    <resultMap id="myEmpByStep" type="com.DanceBytes.mybatis.bean.Employee">
+    <resultMap id="myEmpByStep" type="com.DanceBytes.mybatis.Employee">
         <id column="id" property="id"/>
         <result column="last_name" property="lastName"/>
         <result column="email" property="email"/>
@@ -96,7 +96,7 @@
 	 		流程：使用select指定的方法（传入column指定的这列参数的值）查出对象，并封装给property指定的属性
 	 	 -->
         <association property="dept"
-                     select="com.DanceBytes.mybatis.dao.DepartmentMapper.getDeptById"
+                     select="com.DanceBytes.mybatis.DepartmentMapper.getDeptById"
                     column="id">
         </association>
     </resultMap>
@@ -121,7 +121,7 @@
         场景二：(1对多)
         查询部门的时候将部门对应的所有员工信息也查询出来：注释在DepartmentMapper.xml中
      -->
-    <select id="getEmployeeByDeptId" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeByDeptId" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee where d_id=${deptId}
     </select>
 
@@ -136,7 +136,7 @@
             如果查出的是女生：就把部门信息查询出来，否则不查询；
             如果是男生，把last_name这一列的值赋值给email;
      -->
-    <resultMap id="myEmpDis" type="com.DanceBytes.mybatis.bean.Employee">
+    <resultMap id="myEmpDis" type="com.DanceBytes.mybatis.Employee">
         <id column="id" property="id"/>
         <result column="last_name" property="lastName"/>
         <result column="email" property="email"/>
@@ -146,14 +146,14 @@
 	 		javaType：列值对应的java类型  -->
         <discriminator javaType="string" column="gender">
             <!--女生  resultType:指定封装的结果类型；不能缺少。/resultMap-->
-            <case value="0" resultType="com.DanceBytes.mybatis.bean.Employee">
+            <case value="0" resultType="com.DanceBytes.mybatis.Employee">
                 <association property="dept"
-                             select="com.DanceBytes.mybatis.bean.Department"
+                             select="com.DanceBytes.mybatis.Department"
                              column="id">
                 </association>
             </case>
             <!--男生 ;如果是男生，把last_name这一列的值赋值给email; -->
-            <case value="1" resultType="com.DanceBytes.mybatis.bean.Employee">
+            <case value="1" resultType="com.DanceBytes.mybatis.Employee">
                 <id column="id" property="id"/>
                 <result column="last_name" property="lastName"/>
                 <result column="last_name" property="email"/>

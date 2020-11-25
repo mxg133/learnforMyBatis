@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.DanceBytes.mybatis.dao.EmployeeMapper">
+<mapper namespace="com.DanceBytes.mybatis.EmployeeMapper">
 
 <!--     <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache>-->
     <!--
@@ -35,7 +35,7 @@
      -->
     <!-- 查询1 -->
     <select id="getEmployeeById"
-            resultType="com.DanceBytes.mybatis.bean.Employee"
+            resultType="com.DanceBytes.mybatis.Employee"
             databaseId="mysql"
             useCache="true"
             flushCache="false">
@@ -43,17 +43,17 @@
   </select>
 
     <!-- 查询2 -->
-    <select id="getEmployeeByIdAndLastName" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeByIdAndLastName" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee where id=#{id} and last_Name=#{lastName}
     </select>
 
     <!-- 查询3 -->
-    <select id="getEmployeeByMap" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeByMap" resultType="com.DanceBytes.mybatis.Employee">
         select * from ${tableName} where id=${id} and last_Name=#{lastName}
     </select>
 
     <!-- 查询4 返回集合 如果返回的是一个集合，要写集合中元素的类型  -->
-    <select id="getEmployeeByLastNameLike" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeByLastNameLike" resultType="com.DanceBytes.mybatis.Employee">
          select * from tbl_employee where last_Name like #{lastName}
     </select>
 
@@ -63,7 +63,7 @@
     </select>
 
     <!-- 查询6 多条记录封装一个map Map<Integer, Employee>键是这条记录的主键，值是记录封装后的javaBean -->
-    <select id="getEmployeeLastNameLikeReturnMap" resultType="com.DanceBytes.mybatis.bean.Employee">
+    <select id="getEmployeeLastNameLikeReturnMap" resultType="com.DanceBytes.mybatis.Employee">
         select * from tbl_employee where last_Name like #{lastName}
     </select>
 
@@ -76,7 +76,7 @@
         useGeneratedKeys="true"；使用自增主键获取主键值策略
         keyProperty；指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
     -->
-    <insert id="addEmployee" parameterType="com.DanceBytes.mybatis.bean.Employee"
+    <insert id="addEmployee" parameterType="com.DanceBytes.mybatis.Employee"
             useGeneratedKeys="true" keyProperty="id" flushCache="true">
         insert into tbl_employee(last_Name, email, gender)
         values(#{lastName}, #{email}, #{gender})

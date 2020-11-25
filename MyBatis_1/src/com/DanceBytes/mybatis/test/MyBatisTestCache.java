@@ -88,7 +88,7 @@ public class MyBatisTestCache {
 
     //测试二级缓存
     @Test
-    public void test2() throws IOException {
+    public void test2() throws Exception {
         SqlSession openSession1 = getSqlSessionFactory().openSession();
         EmployeeMapper mapper1 = openSession1.getMapper(EmployeeMapper.class);
         SqlSession openSession2 = getSqlSessionFactory().openSession();

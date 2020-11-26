@@ -11,7 +11,7 @@
     </select>
 
 
-
+    <!-- 一对多 -->
     <!--嵌套结果集的方式，使用collection标签定义关联的集合类型的属性封装规则  -->
     <resultMap id="myDept" type="com.DanceBytes.mybatis.Department">
         <id column="did" property="id"/>

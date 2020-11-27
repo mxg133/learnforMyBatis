@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!--plugins：注册插件  -->
+    <plugins>
+<!--        <plugin interceptor="com.DanceBytes.mybatis.dao.MyFirstPlugin">-->
+<!--            <property name="username" value="root"/>-->
+<!--            <property name="password" value="123456"/>-->
+<!--        </plugin>-->
+<!--        <plugin interceptor="com.DanceBytes.mybatis.dao.MySecondPlugin"></plugin>-->
+
+    <!-- 分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+    <!--
+        1、mybatis可以使用properties来引入外部properties配置文件的内容；
+        resource：引入类路径下的资源
+        url：引入网络路径或者磁盘路径下的资源
+    -->
+<!--    <properties resource="conf/jdbc.properties"/>-->
+
+    <!--
+		2、settings包含很多重要的设置项
+		setting:用来设置每一个设置项
+			name：设置项名
+			value：设置项取值
+	 -->
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="username" value="root"/>
+                <property name="password" value="mklmklmkl"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--
+        5、databaseIdProvider：支持多数据库厂商的；
+        type="DB_VENDOR"：VendorDatabaseIdProvider
+        作用就是得到数据库厂商的标识(驱动getDatabaseProductName())，mybatis就能根据数据库厂商标识来执行不同的sql;
+        MySQL，Oracle，SQL Server,xxxx
+    -->
+    <databaseIdProvider type="DB_VENDOR">
+        <!-- 为不同的数据库厂商起别名 -->
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="SQL Server" value="sqlserver"/>
+    </databaseIdProvider>
+
+
+    <!-- 将我们写好的sql映射文件（EmployeeMapper.xml）
+        一定要注册到全局配置文件（mybatis-config.xml）中 -->
+    <!-- 6、mappers：将sql映射注册到全局配置中 -->
+    <mappers>
+        <!--
+            mapper:注册一个sql映射
+                注册配置文件
+                resource：引用类路径下的sql映射文件
+                    mybatis/mapper/EmployeeMapper.xml
+                url：引用网路路径或者磁盘路径下的sql映射文件
+                    file:///var/mappers/AuthorMapper.xml
+
+                注册接口
+                class：引用（注册）接口，
+                    1、有sql映射文件，映射文件名必须和接口同名，并且放在与接口同一目录下；
+                    2、没有sql映射文件，所有的sql都是利用注解写在接口上;
+                    推荐：
+                        比较重要的，复杂的Dao接口我们来写sql映射文件
+                        不重要，简单的Dao接口为了开发快速可以使用注解；
+        -->
+<!--         <mapper resource="mybatis/mapper/EmployeeMapper.xml"/>-->
+        <!-- <mapper class="com.DanceBytes.mybatis.dao.EmployeeMapperAnnotation"/> -->
+
+        <!-- 批量注册： -->
+        <package name="com/DanceBytes/mybatis/dao"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.DanceBytes.mybatis.dao.EmployeeMapper">
+  <!-- 分页查询 插件 -->
+  <select id="getEmployees" resultType="com.DanceBytes.mybatis.bean.Employee">
+    select * from tbl_employee
+  </select>
+
+  <!-- 批量保存 插件 -->
+  <insert id="addEmployee">
+    insert into tbl_employee(last_name,email,gender)
+		values(#{lastName},#{email},#{gender})
+  </insert>
+</mapper>

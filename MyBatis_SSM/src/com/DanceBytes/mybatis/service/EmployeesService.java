@@ -23,6 +23,7 @@ public class EmployeesService {
     private SqlSession sqlSession;
 
     public List<Employee> getEmployees() {
+//        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
         return employeeMapper.getEmployees();
     }
 }

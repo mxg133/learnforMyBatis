@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MyBatis_1/MyBatis_1.iml" filepath="$PROJECT_DIR$/MyBatis_1/MyBatis_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBatis_SSM/MyBatis_SSM.iml" filepath="$PROJECT_DIR$/MyBatis_SSM/MyBatis_SSM.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBatis_mbg_nixianggongcheng/MyBatis_mbg_nixianggongcheng.iml" filepath="$PROJECT_DIR$/MyBatis_mbg_nixianggongcheng/MyBatis_mbg_nixianggongcheng.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyBatis_other/MyBatis_other.iml" filepath="$PROJECT_DIR$/MyBatis_other/MyBatis_other.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBatis_plugin/MyBatis_plugin.iml" filepath="$PROJECT_DIR$/MyBatis_plugin/MyBatis_plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/learnforMyBatis.iml" filepath="$PROJECT_DIR$/learnforMyBatis.iml" />
     </modules>

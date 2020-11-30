@@ -1,5 +1,6 @@
 package com.DanceBytes.mybatis.test;
 
+import com.DanceBytes.mybatis.bean.EmpStatus;
 import com.DanceBytes.mybatis.bean.Employee;
 import com.DanceBytes.mybatis.dao.EmployeeMapper;
 import com.github.pagehelper.PageInfo;
@@ -101,20 +102,46 @@ public class MyBatisTest {
         //可以执行批量操作的sqlSession
         SqlSession openSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         long start = System.currentTimeMillis();
-        try{
-            EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
-            for (int i = 0; i < 10; i++) {
-                mapper.addEmployee(new Employee(UUID.randomUUID().toString().substring(0, 5), "b", "1"));
-            }
-            openSession.commit();
-            long end = System.currentTimeMillis();
-            //批量：（预编译sql一次==>设置参数===>10000次===>执行（1次））
-            //Parameters: 616c1(String), b(String), 1(String)==>4598
-            //非批量：（预编译sql=设置参数=执行）==》10000    10200
-            System.out.println("执行时长："+(end-start));
-        }finally{
-            openSession.close();
+
+        EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+        for (int i = 0; i < 10; i++) {
+            mapper.addEmployee(new Employee(UUID.randomUUID().toString().substring(0, 5), "b", "1"));
         }
+        openSession.commit();
+        long end = System.currentTimeMillis();
+        //批量：（预编译sql一次==>设置参数===>10000次===>执行（1次））
+        //Parameters: 616c1(String), b(String), 1(String)==>4598
+        //非批量：（预编译sql=设置参数=执行）==》10000    10200
+        System.out.println("执行时长："+(end-start));
+
+        openSession.close();
     }
 
+    /**
+     * 默认mybatis在处理枚举对象的时候保存的是枚举的名字：EnumTypeHandler
+     * 改变使用：EnumOrdinalTypeHandler：
+     * 自定义类型
+     */
+    @Test
+    public void test3() throws IOException {
+        SqlSession openSession = getSqlSessionFactory().openSession();
+        EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+
+//        Employee employee = new Employee("enum111", "n", "1");
+//        mapper.addEmployee(employee);
+//        System.out.println(employee.getId());
+
+//        openSession.commit();
+        openSession.close();
+    }
+
+    @Test
+    public void testEnum(){
+        EmpStatus login = EmpStatus.LOGIN;
+        System.out.println(login);
+        System.out.println("Enum的 索引： " + login.ordinal());
+        System.out.println("Enum的 名字： " + login.name());
+        System.out.println("Enum的 状态码： " + login.getCode());
+        System.out.println("Enum的 提示消息： " + login.getMsg());
+    }
 }

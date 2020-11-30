@@ -4,7 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+    <!-- 引入外部文件 -->
+    <!--
+        1、mybatis可以使用properties来引入外部properties配置文件的内容；
+        resource：引入类路径下的资源
+        url：引入网络路径或者磁盘路径下的资源
+     -->
+    <properties resource="jdbc.properties"/>
 
+
+    <typeHandlers>
+        <!--<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.DanceBytes.mybatis.bean.EmpStatus"/>-->
+        <!--1、配置我们自定义的TypeHandler  -->
+        <typeHandler handler="com.DanceBytes.mybatis.typehandler.MyEnumEmpStatusTypeHandler" javaType="com.DanceBytes.mybatis.bean.EmpStatus"/>
+        <!--2、也可以在处理某个字段的时候告诉MyBatis用什么类型处理器
+				保存：#{empStatus,typeHandler=xxxx}
+				查询：
+					<resultMap type="com.DanceBytes.mybatis.bean.Employee" id="MyEmp">
+				 		<id column="id" property="id"/>
+				 		<result column="empStatus" property="empStatus" typeHandler=""/>
+				 	</resultMap>
+				注意：如果在参数位置修改TypeHandler，应该保证保存数据和查询数据用的TypeHandler是一样的。
+		  -->
+    </typeHandlers>
+    
+    
     <!--plugins：注册插件  -->
     <plugins>
 <!--        <plugin interceptor="com.DanceBytes.mybatis.dao.MyFirstPlugin">-->
@@ -17,12 +41,6 @@
         <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
     </plugins>
 
-    <!--
-        1、mybatis可以使用properties来引入外部properties配置文件的内容；
-        resource：引入类路径下的资源
-        url：引入网络路径或者磁盘路径下的资源
-    -->
-<!--    <properties resource="conf/jdbc.properties"/>-->
 
     <!--
 		2、settings包含很多重要的设置项
@@ -35,10 +53,10 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
-                <property name="username" value="root"/>
-                <property name="password" value="mklmklmkl"/>
+                <property name="driver" value="${prop.driverClass}"/>
+                <property name="url" value="${prop.url}"/>
+                <property name="username" value="${prop.username}"/>
+                <property name="password" value="${prop.password}"/>
             </dataSource>
         </environment>
     </environments>
